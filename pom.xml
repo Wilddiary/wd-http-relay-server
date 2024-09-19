@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.wilddiary</groupId>
+    <artifactId>spring-base-starter</artifactId>
+    <version>1.1.3</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.databahn.ws</groupId>
+  <artifactId>wd-http-relay-server</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>Wilddiary HTTP Relay Server</name>
+  <description>A HTTP relay server that forwards incoming HTTP requests to external servers based on servlet context mappings. Ideal for use cases where you need to relay requests to external services via your own domain, particularly when routing through a traditional proxy server is not feasible.</description>
+  <url>https://github.com/Wilddiary/wd-http-relay-server</url>
+  <inceptionYear>2024</inceptionYear>
+
+  <organization>
+    <name>Wilddiary.com</name>
+    <url>https://wilddiary.com</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>Dr0na</id>
+      <name>Dr0na</name>
+      <email>Dr0na@users.noreply.github.com</email>
+      <organization>Wilddiary.com</organization>
+      <organizationUrl>https://wilddiary.com</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/Wilddiary/wd-http-relay-server.git</connection>
+    <developerConnection>scm:git:ssh://github.com/Wilddiary/wd-http-relay-server.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/Wilddiary/wd-http-relay-server/tree/main</url>
+  </scm>
+
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/Wilddiary/wd-http-relay-server/issues</url>
+  </issueManagement>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <brotli.dec.version>0.1.2</brotli.dec.version>
+    <commons-compress.version>1.27.1</commons-compress.version>
+    <spring-boot-maven-plugin.version>3.3.3</spring-boot-maven-plugin.version>
+    <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+    <undertow-core.version>2.3.17.Final</undertow-core.version>
+    <spring-webmvc.version>6.1.13</spring-webmvc.version>
+    <xnio-api.version>3.8.16.Final</xnio-api.version>
+    <xmlunit-core.version>[2.10.0,)</xmlunit-core.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.undertow</groupId>
+        <artifactId>undertow-core</artifactId>
+        <version>${undertow-core.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${spring-webmvc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.xnio</groupId>
+        <artifactId>xnio-api</artifactId>
+        <version>${xnio-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xmlunit</groupId>
+        <artifactId>xmlunit-core</artifactId>
+        <version>${xmlunit-core.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <!-- Exclude the Tomcat dependency -->
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>${commons-compress.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.brotli</groupId>
+      <artifactId>dec</artifactId>
+      <version>${brotli.dec.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.aayushatharva.brotli4j</groupId>
+      <artifactId>brotli4j</artifactId>
+      <version>1.17.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>wd-http-relay-server-${project.version}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Implementation-Title>${project.name}</Implementation-Title>
+              <SpashScreen-Image>images/splash.png</SpashScreen-Image>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
